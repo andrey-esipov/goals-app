@@ -2,25 +2,29 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { setCycleArchived } from "@/app/cycles/actions";
 import { createGoal, setGoalArchived, updateGoal } from "@/app/goals/actions";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { CategoryBadge } from "@/components/category-badge";
 import { formatShortDate } from "@/lib/dates";
 import { getCycleWithGoals } from "@/lib/cycles";
+import { getCategoriesForUser } from "@/lib/categories";
 import { requireUserId } from "@/lib/session";
+import {
+  ArrowLeft,
+  Pencil,
+  Archive,
+  RotateCcw,
+  Plus,
+  TrendingUp,
+  TrendingDown,
+  Calendar,
+  Target,
+  ChevronDown,
+} from "lucide-react";
 
-const selectClassName =
-  "border-input bg-background h-9 w-full rounded-md border px-3 py-1 text-sm shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
+const selectClass =
+  "h-9 w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 text-sm text-white focus:border-emerald-500/40 focus:outline-none";
 
 export default async function CycleDetailPage({
   params,
@@ -28,41 +32,59 @@ export default async function CycleDetailPage({
   params: { cycleId: string };
 }) {
   const userId = await requireUserId();
-  const cycle = await getCycleWithGoals(userId, params.cycleId);
+  const [cycle, categories] = await Promise.all([
+    getCycleWithGoals(userId, params.cycleId),
+    getCategoriesForUser(userId),
+  ]);
 
-  if (!cycle) {
-    notFound();
-  }
+  if (!cycle) notFound();
 
-  const activeGoals = cycle.goals.filter((goal) => !goal.archivedAt);
-  const archivedGoals = cycle.goals.filter((goal) => goal.archivedAt);
+  const activeGoals = cycle.goals.filter((g) => !g.archivedAt);
+  const archivedGoals = cycle.goals.filter((g) => g.archivedAt);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
+          <Link
+            href="/cycles"
+            className="mb-2 inline-flex items-center gap-1 text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+          >
+            <ArrowLeft className="h-3 w-3" />
+            Cycles
+          </Link>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-semibold tracking-tight">
+            <h1 className="text-2xl font-bold tracking-tight text-white">
               {cycle.name}
             </h1>
-            {cycle.archivedAt ? (
-              <Badge variant="outline">Archived</Badge>
-            ) : (
-              <Badge variant="secondary">Active</Badge>
-            )}
+            <span
+              className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-medium ${
+                cycle.archivedAt
+                  ? "bg-zinc-500/10 text-zinc-500"
+                  : "bg-emerald-500/10 text-emerald-400"
+              }`}
+            >
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${cycle.archivedAt ? "bg-zinc-500" : "bg-emerald-500"}`}
+              />
+              {cycle.archivedAt ? "Archived" : "Active"}
+            </span>
           </div>
-          <p className="text-muted-foreground text-sm">
+          <div className="mt-1 flex items-center gap-1.5 text-xs text-zinc-500">
+            <Calendar className="h-3 w-3" />
             {formatShortDate(cycle.startDate)} —{" "}
             {formatShortDate(cycle.endDate)}
-          </p>
+          </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button asChild variant="outline" size="sm">
-            <Link href="/cycles">Back to cycles</Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link href={`/cycles/${cycle.id}/edit`}>Edit cycle</Link>
-          </Button>
+        <div className="flex items-center gap-1.5">
+          <Link
+            href={`/cycles/${cycle.id}/edit`}
+            className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs text-zinc-400 transition-colors hover:bg-white/[0.06] hover:text-white"
+          >
+            <Pencil className="h-3 w-3" />
+            Edit
+          </Link>
           <form action={setCycleArchived}>
             <input type="hidden" name="cycleId" value={cycle.id} />
             <input
@@ -70,277 +92,343 @@ export default async function CycleDetailPage({
               name="archive"
               value={cycle.archivedAt ? "false" : "true"}
             />
-            <Button
-              size="sm"
-              variant={cycle.archivedAt ? "secondary" : "destructive"}
+            <button
               type="submit"
+              className={`flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs transition-colors ${
+                cycle.archivedAt
+                  ? "text-zinc-400 hover:bg-white/[0.06] hover:text-white"
+                  : "text-zinc-500 hover:bg-red-500/10 hover:text-red-400"
+              }`}
             >
-              {cycle.archivedAt ? "Unarchive" : "Archive"}
-            </Button>
+              {cycle.archivedAt ? (
+                <RotateCcw className="h-3 w-3" />
+              ) : (
+                <Archive className="h-3 w-3" />
+              )}
+              {cycle.archivedAt ? "Restore" : "Archive"}
+            </button>
           </form>
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Add a goal</CardTitle>
-          <CardDescription>
-            Define the outcomes you want to track during this cycle.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form
-            className="grid gap-4 lg:grid-cols-2"
-            action={createGoal.bind(null, cycle.id)}
-          >
-            <div className="grid gap-2">
-              <Label htmlFor="goal-title">Title</Label>
-              <Input
-                id="goal-title"
-                name="title"
-                placeholder="Ship v1"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="goal-unit">Unit (optional)</Label>
-              <Input id="goal-unit" name="unit" placeholder="hrs, leads, lbs" />
-            </div>
-            <div className="grid gap-2 lg:col-span-2">
-              <Label htmlFor="goal-description">Description</Label>
-              <Textarea
-                id="goal-description"
-                name="description"
-                placeholder="Why does this matter?"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="goal-start">Start value</Label>
-              <Input
-                id="goal-start"
-                name="startValue"
-                type="number"
-                step="any"
-                defaultValue={0}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="goal-target">Target value</Label>
-              <Input
-                id="goal-target"
-                name="targetValue"
-                type="number"
-                step="any"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="goal-direction">Direction</Label>
-              <select
-                id="goal-direction"
-                name="direction"
-                className={selectClassName}
-              >
-                <option value="INCREASE">Increase</option>
-                <option value="DECREASE">Decrease</option>
-              </select>
-            </div>
-            <div className="flex items-end">
-              <Button type="submit">Create goal</Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+      {/* Add goal form */}
+      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+        <div className="mb-5 flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
+            <Plus className="h-4 w-4 text-emerald-400" />
+          </div>
+          <h3 className="text-sm font-semibold text-white">Add a goal</h3>
+        </div>
 
+        <form
+          className="grid gap-4 sm:grid-cols-2"
+          action={createGoal.bind(null, cycle.id)}
+        >
+          <div className="space-y-2">
+            <Label className="text-xs text-zinc-400">Title</Label>
+            <Input
+              name="title"
+              placeholder="Ship v1"
+              required
+              className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs text-zinc-400">Unit (optional)</Label>
+            <Input
+              name="unit"
+              placeholder="hrs, leads, lbs"
+              className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
+            />
+          </div>
+          <div className="space-y-2 sm:col-span-2">
+            <Label className="text-xs text-zinc-400">Description</Label>
+            <Textarea
+              name="description"
+              placeholder="Why does this matter?"
+              className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs text-zinc-400">Start value</Label>
+            <Input
+              name="startValue"
+              type="number"
+              step="any"
+              defaultValue={0}
+              className="border-white/[0.08] bg-white/[0.03] text-white focus:border-emerald-500/40"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs text-zinc-400">Target value</Label>
+            <Input
+              name="targetValue"
+              type="number"
+              step="any"
+              required
+              className="border-white/[0.08] bg-white/[0.03] text-white focus:border-emerald-500/40"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs text-zinc-400">Direction</Label>
+            <select name="direction" className={selectClass}>
+              <option value="INCREASE">Increase</option>
+              <option value="DECREASE">Decrease</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs text-zinc-400">Category</Label>
+            <select name="categoryId" className={selectClass}>
+              <option value="">None</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="sm:col-span-2">
+            <button
+              type="submit"
+              className="rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-400"
+            >
+              Create goal
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Active goals */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Active goals</h2>
-          <span className="text-muted-foreground text-xs">
-            {activeGoals.length} active
-          </span>
+          <h2 className="text-sm font-semibold tracking-[0.1em] text-zinc-400 uppercase">
+            Active goals
+          </h2>
+          <span className="text-xs text-zinc-600">{activeGoals.length}</span>
         </div>
+
         {activeGoals.length === 0 ? (
-          <Card>
-            <CardContent className="text-muted-foreground text-sm">
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 text-center">
+            <Target className="mx-auto mb-3 h-8 w-8 text-zinc-600" />
+            <p className="text-sm text-zinc-500">
               No goals yet. Add the first outcome for this cycle.
-            </CardContent>
-          </Card>
+            </p>
+          </div>
         ) : (
-          <div className="grid gap-4">
-            {activeGoals.map((goal) => (
-              <Card key={goal.id}>
-                <CardHeader className="flex flex-row items-start justify-between gap-4">
-                  <div>
-                    <CardTitle className="text-base">{goal.title}</CardTitle>
-                    {goal.description && (
-                      <CardDescription>{goal.description}</CardDescription>
-                    )}
-                  </div>
-                  <Badge variant="secondary">
-                    {goal.direction === "DECREASE" ? "Decrease" : "Increase"}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-muted-foreground grid gap-2 text-sm sm:grid-cols-3">
-                    <div>
-                      <p className="text-xs tracking-wide uppercase">Start</p>
-                      <p className="text-foreground font-medium">
-                        {goal.startValue} {goal.unit ?? ""}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs tracking-wide uppercase">Target</p>
-                      <p className="text-foreground font-medium">
-                        {goal.targetValue} {goal.unit ?? ""}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs tracking-wide uppercase">Status</p>
-                      <p className="text-foreground font-medium">Active</p>
-                    </div>
-                  </div>
+          <div className="space-y-3">
+            {activeGoals.map((goal) => {
+              const range = goal.targetValue - goal.startValue;
+              const progress =
+                range === 0
+                  ? 100
+                  : Math.round(
+                      Math.max(
+                        0,
+                        Math.min(
+                          1,
+                          (goal.currentValue - goal.startValue) / range,
+                        ),
+                      ) * 100,
+                    );
+              const progressColor =
+                progress >= 70
+                  ? "#34d399"
+                  : progress >= 40
+                    ? "#fbbf24"
+                    : "#f87171";
+              const cat = (goal as any).category;
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    <form action={setGoalArchived}>
-                      <input type="hidden" name="goalId" value={goal.id} />
-                      <input type="hidden" name="archive" value="true" />
-                      <Button size="sm" variant="destructive" type="submit">
-                        Archive
-                      </Button>
-                    </form>
-                  </div>
-
-                  <details className="rounded-md border border-dashed p-4">
-                    <summary className="text-primary cursor-pointer text-sm font-medium">
-                      Edit goal
-                    </summary>
-                    <form
-                      className="mt-4 grid gap-4 lg:grid-cols-2"
-                      action={updateGoal.bind(null, goal.id)}
-                    >
-                      <div className="grid gap-2">
-                        <Label htmlFor={`goal-title-${goal.id}`}>Title</Label>
-                        <Input
-                          id={`goal-title-${goal.id}`}
-                          name="title"
-                          defaultValue={goal.title}
-                          required
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor={`goal-unit-${goal.id}`}>Unit</Label>
-                        <Input
-                          id={`goal-unit-${goal.id}`}
-                          name="unit"
-                          defaultValue={goal.unit ?? ""}
-                        />
-                      </div>
-                      <div className="grid gap-2 lg:col-span-2">
-                        <Label htmlFor={`goal-description-${goal.id}`}>
-                          Description
-                        </Label>
-                        <Textarea
-                          id={`goal-description-${goal.id}`}
-                          name="description"
-                          defaultValue={goal.description ?? ""}
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor={`goal-start-${goal.id}`}>Start</Label>
-                        <Input
-                          id={`goal-start-${goal.id}`}
-                          name="startValue"
-                          type="number"
-                          step="any"
-                          defaultValue={goal.startValue}
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor={`goal-target-${goal.id}`}>Target</Label>
-                        <Input
-                          id={`goal-target-${goal.id}`}
-                          name="targetValue"
-                          type="number"
-                          step="any"
-                          defaultValue={goal.targetValue}
-                          required
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor={`goal-direction-${goal.id}`}>
-                          Direction
-                        </Label>
-                        <select
-                          id={`goal-direction-${goal.id}`}
-                          name="direction"
-                          className={selectClassName}
-                          defaultValue={goal.direction}
+              return (
+                <div
+                  key={goal.id}
+                  className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-[15px] font-semibold text-white">
+                          {goal.title}
+                        </h3>
+                        {cat && (
+                          <CategoryBadge
+                            name={cat.name}
+                            color={cat.color}
+                            icon={cat.icon}
+                          />
+                        )}
+                        <span
+                          className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium"
+                          style={{
+                            backgroundColor: `${progressColor}12`,
+                            color: progressColor,
+                          }}
                         >
-                          <option value="INCREASE">Increase</option>
-                          <option value="DECREASE">Decrease</option>
-                        </select>
+                          {goal.direction === "DECREASE" ? (
+                            <TrendingDown className="h-3 w-3" />
+                          ) : (
+                            <TrendingUp className="h-3 w-3" />
+                          )}
+                          {goal.direction === "DECREASE"
+                            ? "Decrease"
+                            : "Increase"}
+                        </span>
                       </div>
-                      <div className="flex items-end">
-                        <Button type="submit">Save changes</Button>
-                      </div>
-                    </form>
-                  </details>
-                </CardContent>
-              </Card>
-            ))}
+                      {goal.description && (
+                        <p className="mt-1 text-xs text-zinc-500">
+                          {goal.description}
+                        </p>
+                      )}
+                    </div>
+                    <span className="font-mono text-lg font-medium text-white">
+                      {progress}%
+                    </span>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/[0.04]">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${progress}%`,
+                        backgroundColor: progressColor,
+                      }}
+                    />
+                  </div>
+
+                  <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
+                    <span>
+                      {goal.startValue}
+                      {goal.unit ? ` ${goal.unit}` : ""} → {goal.targetValue}
+                      {goal.unit ? ` ${goal.unit}` : ""}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <details className="group relative">
+                        <summary className="cursor-pointer list-none text-xs text-zinc-500 transition-colors hover:text-zinc-300">
+                          <span className="flex items-center gap-1">
+                            Edit
+                            <ChevronDown className="h-3 w-3 transition-transform group-open:rotate-180" />
+                          </span>
+                        </summary>
+                        <div className="absolute right-0 z-10 mt-2 w-80 rounded-xl border border-white/[0.08] bg-[#0c0c0d] p-4 shadow-xl">
+                          <form
+                            className="space-y-3"
+                            action={updateGoal.bind(null, goal.id)}
+                          >
+                            <Input
+                              name="title"
+                              defaultValue={goal.title}
+                              required
+                              className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                            />
+                            <Input
+                              name="unit"
+                              defaultValue={goal.unit ?? ""}
+                              placeholder="Unit"
+                              className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                            />
+                            <Textarea
+                              name="description"
+                              defaultValue={goal.description ?? ""}
+                              className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                            />
+                            <div className="grid grid-cols-2 gap-2">
+                              <Input
+                                name="startValue"
+                                type="number"
+                                step="any"
+                                defaultValue={goal.startValue}
+                                className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                              />
+                              <Input
+                                name="targetValue"
+                                type="number"
+                                step="any"
+                                defaultValue={goal.targetValue}
+                                required
+                                className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                              />
+                            </div>
+                            <select
+                              name="direction"
+                              defaultValue={goal.direction}
+                              className={selectClass + " text-sm"}
+                            >
+                              <option value="INCREASE">Increase</option>
+                              <option value="DECREASE">Decrease</option>
+                            </select>
+                            <select
+                              name="categoryId"
+                              defaultValue={(goal as any).categoryId ?? ""}
+                              className={selectClass + " text-sm"}
+                            >
+                              <option value="">No category</option>
+                              {categories.map((cat) => (
+                                <option key={cat.id} value={cat.id}>
+                                  {cat.name}
+                                </option>
+                              ))}
+                            </select>
+                            <button
+                              type="submit"
+                              className="w-full rounded-lg bg-emerald-500 py-2 text-xs font-medium text-white hover:bg-emerald-400"
+                            >
+                              Save
+                            </button>
+                          </form>
+                        </div>
+                      </details>
+                      <form action={setGoalArchived}>
+                        <input type="hidden" name="goalId" value={goal.id} />
+                        <input type="hidden" name="archive" value="true" />
+                        <button
+                          type="submit"
+                          className="text-xs text-zinc-600 transition-colors hover:text-red-400"
+                        >
+                          Archive
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </section>
 
+      {/* Archived goals */}
       {archivedGoals.length > 0 && (
         <section className="space-y-4">
-          <Separator />
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Archived goals</h2>
-            <span className="text-muted-foreground text-xs">
-              {archivedGoals.length} archived
-            </span>
-          </div>
-          <div className="grid gap-4">
+          <h2 className="text-sm font-semibold tracking-[0.1em] text-zinc-500 uppercase">
+            Archived
+          </h2>
+          <div className="space-y-2">
             {archivedGoals.map((goal) => (
-              <Card key={goal.id}>
-                <CardHeader className="flex flex-row items-start justify-between gap-4">
-                  <div>
-                    <CardTitle className="text-base">{goal.title}</CardTitle>
-                    {goal.description && (
-                      <CardDescription>{goal.description}</CardDescription>
-                    )}
-                  </div>
-                  <Badge variant="outline">Archived</Badge>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-muted-foreground grid gap-2 text-sm sm:grid-cols-3">
-                    <div>
-                      <p className="text-xs tracking-wide uppercase">Start</p>
-                      <p className="text-foreground font-medium">
-                        {goal.startValue} {goal.unit ?? ""}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs tracking-wide uppercase">Target</p>
-                      <p className="text-foreground font-medium">
-                        {goal.targetValue} {goal.unit ?? ""}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs tracking-wide uppercase">Status</p>
-                      <p className="text-foreground font-medium">Archived</p>
-                    </div>
-                  </div>
-                  <form action={setGoalArchived}>
-                    <input type="hidden" name="goalId" value={goal.id} />
-                    <input type="hidden" name="archive" value="false" />
-                    <Button size="sm" variant="secondary" type="submit">
-                      Restore
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <div
+                key={goal.id}
+                className="flex items-center justify-between rounded-xl border border-white/[0.04] bg-white/[0.01] px-4 py-3"
+              >
+                <div>
+                  <p className="text-sm font-medium text-zinc-400">
+                    {goal.title}
+                  </p>
+                  <p className="text-xs text-zinc-600">
+                    {goal.startValue} → {goal.targetValue}
+                    {goal.unit ? ` ${goal.unit}` : ""}
+                  </p>
+                </div>
+                <form action={setGoalArchived}>
+                  <input type="hidden" name="goalId" value={goal.id} />
+                  <input type="hidden" name="archive" value="false" />
+                  <button
+                    type="submit"
+                    className="flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                    Restore
+                  </button>
+                </form>
+              </div>
             ))}
           </div>
         </section>

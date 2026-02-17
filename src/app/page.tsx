@@ -14,41 +14,14 @@ import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight, Plus, Target } from "lucide-react";
+import { LandingHero } from "@/components/landing-hero";
 import { prisma } from "@/lib/prisma";
 
 export default async function DashboardPage() {
   const userId = await getUserId();
 
   if (!userId) {
-    return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center text-center">
-        <div className="relative mb-8">
-          <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-3xl" />
-          <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
-            <Target className="h-10 w-10 text-emerald-400" />
-          </div>
-        </div>
-        <h1 className="mb-3 text-4xl font-bold tracking-tight text-white">
-          Track your goals
-        </h1>
-        <p className="mb-8 max-w-md text-base text-zinc-500">
-          Set goals, track weekly progress, and see your life score improve over
-          time. Built for ambitious people.
-        </p>
-        <div className="flex gap-3">
-          <Button
-            variant="outline"
-            className="border-white/10 text-zinc-300 hover:bg-white/5"
-          >
-            Learn more
-          </Button>
-          <Button className="bg-emerald-500 text-white hover:bg-emerald-400">
-            Get started
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-    );
+    return <LandingHero />;
   }
 
   const [lifeScore, cycles, streak, focusGoals, recentActivity] =
