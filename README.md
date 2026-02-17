@@ -12,9 +12,12 @@ Monarch-inspired goals + habits tracker (single-player v1).
 ## Getting started
 
 ```bash
+docker compose up -d
 cp .env.example .env
 npm i
-npx prisma generate
+npx prisma migrate dev
+# Optional sample data (requires SEED_USER_EMAIL)
+SEED_USER_EMAIL="you@example.com" npx prisma db seed
 npm run dev
 ```
 
@@ -26,3 +29,11 @@ Create OAuth apps and set:
 - `NEXTAUTH_SECRET`
 - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`
 - `AZURE_AD_CLIENT_ID` / `AZURE_AD_CLIENT_SECRET` / `AZURE_AD_TENANT_ID`
+
+## Optional seed data
+
+Set `SEED_USER_EMAIL` to your OAuth email to attach sample cycles/goals:
+
+```bash
+SEED_USER_EMAIL="you@example.com" npx prisma db seed
+```
