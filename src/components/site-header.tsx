@@ -58,7 +58,11 @@ export function SiteHeader() {
               >
                 Sign in with Google
               </Button>
-              <Button onClick={() => signIn("azure-ad", { callbackUrl: "/" })}>
+              <Button
+                onClick={() =>
+                  signIn("microsoft-entra-id", { callbackUrl: "/" })
+                }
+              >
                 Microsoft
               </Button>
             </div>
