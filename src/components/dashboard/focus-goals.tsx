@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, TrendingDown } from "lucide-react";
 
 type FocusGoal = {
   id: string;
@@ -22,65 +20,88 @@ type FocusGoal = {
 export function FocusGoals({ goals }: { goals: FocusGoal[] }) {
   if (goals.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <AlertTriangle className="h-4 w-4 text-amber-500" />
-            Focus areas
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground text-sm">
-            All goals are on track!
-          </p>
-        </CardContent>
-      </Card>
+      <motion.div
+        className="rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.03] p-6"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
+            <span className="text-lg">🎯</span>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-emerald-300">All on track</p>
+            <p className="text-xs text-zinc-500">
+              Every goal is at or above pace
+            </p>
+          </div>
+        </div>
+      </motion.div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base">
-          <AlertTriangle className="h-4 w-4 text-amber-500" />
-          Needs attention
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
+    <motion.div
+      className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.4, duration: 0.5 }}
+    >
+      <div className="mb-4 flex items-center gap-2.5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10">
+          <AlertTriangle className="h-4 w-4 text-amber-400" />
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold text-white">Needs attention</h3>
+          <p className="text-xs text-zinc-500">
+            {goals.length} goals behind pace
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-1">
         {goals.map((goal, i) => (
           <motion.div
             key={goal.id}
-            initial={{ opacity: 0, x: -10 }}
+            initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.1 + 0.2 }}
+            transition={{ delay: i * 0.06 + 0.6 }}
           >
-            <Link href={`/cycles/${goal.cycleId}`} className="block">
-              <div className="hover:bg-muted/50 -mx-2 space-y-1 rounded-lg p-2 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <span className="text-sm font-medium">{goal.title}</span>
-                  <Badge variant="destructive" className="shrink-0 text-xs">
-                    {goal.gap > 0.2 ? "Behind" : "At risk"}
-                  </Badge>
+            <Link href={`/cycles/${goal.cycleId}`} className="group block">
+              <div className="-mx-2 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.03]">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-zinc-200 group-hover:text-white">
+                      {goal.title}
+                    </p>
+                    <p className="mt-0.5 text-xs text-zinc-500">
+                      {goal.cycle.name}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1 text-xs font-medium text-red-400">
+                    <TrendingDown className="h-3 w-3" />
+                    {Math.round(goal.gap * 100)}% behind
+                  </div>
                 </div>
-                <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                  <span>{goal.cycle.name}</span>
-                  <span>·</span>
-                  <span>
-                    {goal.progress}% done · {goal.expectedProgress}% expected
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <span>
-                    {goal.currentValue}
-                    {goal.unit ? ` ${goal.unit}` : ""} / {goal.targetValue}
-                    {goal.unit ? ` ${goal.unit}` : ""}
+
+                {/* Mini progress bar */}
+                <div className="mt-2 flex items-center gap-3">
+                  <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/[0.04]">
+                    <div
+                      className="h-full rounded-full bg-red-400/60"
+                      style={{ width: `${goal.progress}%` }}
+                    />
+                  </div>
+                  <span className="font-mono text-[11px] text-zinc-500">
+                    {goal.progress}%
                   </span>
                 </div>
               </div>
             </Link>
           </motion.div>
         ))}
-      </CardContent>
-    </Card>
+      </div>
+    </motion.div>
   );
 }

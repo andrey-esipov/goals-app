@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle2, Clock } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 type Activity = {
@@ -17,48 +16,56 @@ type Activity = {
 export function RecentActivity({ activities }: { activities: Activity[] }) {
   if (activities.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Recent activity</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground text-sm">
-            No check-ins yet. Start by creating a cycle and logging your first
-            week.
+      <motion.div
+        className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7, duration: 0.5 }}
+      >
+        <div className="flex items-center gap-3">
+          <Clock className="h-4 w-4 text-zinc-600" />
+          <p className="text-sm text-zinc-500">
+            No check-ins yet. Complete your first weekly check-in to see
+            activity here.
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </motion.div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-base">Recent activity</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
+    <motion.div
+      className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7, duration: 0.5 }}
+    >
+      <h3 className="mb-4 text-sm font-semibold tracking-[0.1em] text-zinc-400 uppercase">
+        Recent activity
+      </h3>
+      <div className="space-y-0.5">
         {activities.map((a, i) => (
           <motion.div
             key={a.id}
-            className="flex items-start gap-3"
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.08 + 0.3 }}
+            className="flex items-center gap-3 rounded-lg px-2 py-2.5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.06 + 0.9 }}
           >
-            <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
-            <div className="min-w-0">
-              <p className="truncate text-sm">
-                <span className="font-medium">{a.cycleName}</span>
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500/70" />
+            <div className="min-w-0 flex-1">
+              <span className="text-sm text-zinc-300">
+                <span className="font-medium text-white">{a.cycleName}</span>
                 {" — "}
                 {a.goalUpdates} goal{a.goalUpdates !== 1 ? "s" : ""} updated
-              </p>
-              <p className="text-muted-foreground text-xs">
-                {formatDistanceToNow(a.updatedAt, { addSuffix: true })}
-              </p>
+              </span>
             </div>
+            <span className="shrink-0 text-xs text-zinc-600">
+              {formatDistanceToNow(a.updatedAt, { addSuffix: true })}
+            </span>
           </motion.div>
         ))}
-      </CardContent>
-    </Card>
+      </div>
+    </motion.div>
   );
 }

@@ -15,12 +15,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Target } from "lucide-react";
 
 const nav = [
   { href: "/", label: "Dashboard" },
   { href: "/cycles", label: "Cycles" },
   { href: "/goals", label: "Goals" },
-  { href: "/check-in", label: "Weekly Check-in" },
+  { href: "/check-in", label: "Check-in" },
 ];
 
 export function SiteHeader() {
@@ -28,21 +29,26 @@ export function SiteHeader() {
   const { data } = useSession();
 
   return (
-    <header className="bg-background/80 sticky top-0 z-40 w-full border-b backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="text-lg font-bold tracking-tight">
+    <header className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-[#0a0a0b]/80 backdrop-blur-xl">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-8">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-base font-semibold tracking-tight text-white"
+          >
+            <Target className="h-5 w-5 text-emerald-400" />
             Goals
           </Link>
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-0.5 md:flex">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-muted-foreground hover:text-foreground hover:bg-accent rounded-md px-3 py-1.5 text-sm transition-colors",
-                  pathname === item.href &&
-                    "text-foreground bg-accent font-medium",
+                  "rounded-lg px-3 py-1.5 text-[13px] font-medium tracking-wide transition-all duration-200",
+                  pathname === item.href
+                    ? "bg-white/[0.08] text-white"
+                    : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200",
                 )}
               >
                 {item.label}
@@ -51,33 +57,35 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <ThemeToggle />
           {!data?.user ? (
             <div className="flex items-center gap-2">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
+                className="text-zinc-400 hover:text-white"
                 onClick={() => signIn("google", { callbackUrl: "/" })}
               >
-                Sign in with Google
+                Sign in
               </Button>
               <Button
                 size="sm"
+                className="bg-emerald-500 text-white hover:bg-emerald-400"
                 onClick={() =>
                   signIn("microsoft-entra-id", { callbackUrl: "/" })
                 }
               >
-                Microsoft
+                Get started
               </Button>
             </div>
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-9 px-2">
-                  <Avatar className="h-7 w-7">
+                  <Avatar className="h-7 w-7 ring-1 ring-white/10">
                     <AvatarImage src={data.user.image ?? undefined} />
-                    <AvatarFallback>
+                    <AvatarFallback className="bg-emerald-500/20 text-xs text-emerald-300">
                       {(data.user.name ?? data.user.email ?? "U")
                         .slice(0, 1)
                         .toUpperCase()}
