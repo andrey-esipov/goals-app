@@ -16,6 +16,8 @@ import Link from "next/link";
 import { ArrowRight, Plus, Target } from "lucide-react";
 import { LandingHero } from "@/components/landing-hero";
 import { prisma } from "@/lib/prisma";
+import { getOrGenerateInsight } from "@/integrations/ai-coach/generate";
+import { AiInsight } from "@/components/dashboard/ai-insight";
 
 export default async function DashboardPage() {
   const userId = await getUserId();
@@ -33,9 +35,12 @@ export default async function DashboardPage() {
       getRecentActivity(userId),
     ]);
 
-  const totalGoals = await prisma.goal.count({
-    where: { userId, archivedAt: null },
-  });
+  const [totalGoals, insight] = await Promise.all([
+    prisma.goal.count({
+      where: { userId, archivedAt: null },
+    }),
+    getOrGenerateInsight(userId),
+  ]);
 
   const hasData = cycles.length > 0;
 
@@ -111,6 +116,14 @@ export default async function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {/* AI Coach */}
+      {insight && (
+        <AiInsight
+          content={insight.content}
+          createdAt={insight.createdAt.toISOString()}
+        />
+      )}
 
       {/* Recent Activity */}
       <RecentActivity activities={recentActivity} />

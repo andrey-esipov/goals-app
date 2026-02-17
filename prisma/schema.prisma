@@ -26,6 +26,7 @@ model User {
   goals      Goal[]
   checkIns   WeeklyCheckIn[]
   categories Category[]
+  insights   Insight[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -161,4 +162,19 @@ model WeeklyGoalUpdate {
 
   @@unique([goalId, checkInId])
   @@index([goalId])
+}
+
+model Insight {
+  id        String    @id @default(cuid())
+  userId    String
+  cycleId   String?
+  type      String
+  content   String
+  metadata  Json?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
