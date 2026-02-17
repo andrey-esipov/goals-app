@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,7 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
+          <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-2">

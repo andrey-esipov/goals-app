@@ -27,6 +27,7 @@ export async function createGoal(cycleId: string, formData: FormData) {
   const direction = directionRaw === "DECREASE" ? "DECREASE" : "INCREASE";
   const startValue = parseNumber(formData.get("startValue"));
   const targetValueRaw = formData.get("targetValue");
+  const categoryId = String(formData.get("categoryId") ?? "").trim() || null;
 
   if (targetValueRaw === null || targetValueRaw === "") {
     throw new Error("Target value is required.");
@@ -61,11 +62,13 @@ export async function createGoal(cycleId: string, formData: FormData) {
       startValue,
       targetValue,
       direction,
+      categoryId,
     },
   });
 
   revalidatePath(`/cycles/${cycleId}`);
   revalidatePath("/goals");
+  revalidatePath("/");
 }
 
 export async function updateGoal(goalId: string, formData: FormData) {
@@ -77,6 +80,7 @@ export async function updateGoal(goalId: string, formData: FormData) {
   const direction = directionRaw === "DECREASE" ? "DECREASE" : "INCREASE";
   const startValue = parseNumber(formData.get("startValue"));
   const targetValueRaw = formData.get("targetValue");
+  const categoryId = String(formData.get("categoryId") ?? "").trim() || null;
 
   if (targetValueRaw === null || targetValueRaw === "") {
     throw new Error("Target value is required.");
@@ -106,11 +110,13 @@ export async function updateGoal(goalId: string, formData: FormData) {
       startValue,
       targetValue,
       direction,
+      categoryId,
     },
   });
 
   revalidatePath(`/cycles/${goal.cycleId}`);
   revalidatePath("/goals");
+  revalidatePath("/");
 }
 
 export async function setGoalArchived(formData: FormData) {
@@ -138,4 +144,5 @@ export async function setGoalArchived(formData: FormData) {
 
   revalidatePath(`/cycles/${goal.cycleId}`);
   revalidatePath("/goals");
+  revalidatePath("/");
 }
