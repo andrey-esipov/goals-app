@@ -29,38 +29,41 @@ export function SiteHeader() {
 
   return (
     <header className="bg-background/80 sticky top-0 z-40 w-full border-b backdrop-blur">
-      <div className="container flex h-14 items-center justify-between">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-6">
-          <Link href="/" className="font-semibold tracking-tight">
+          <Link href="/" className="text-lg font-bold tracking-tight">
             Goals
           </Link>
-          <nav className="hidden items-center gap-4 md:flex">
+          <nav className="hidden items-center gap-1 md:flex">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-muted-foreground hover:text-foreground text-sm transition-colors",
-                  pathname === item.href && "text-foreground",
+                  "text-muted-foreground hover:text-foreground hover:bg-accent rounded-md px-3 py-1.5 text-sm transition-colors",
+                  pathname === item.href &&
+                    "text-foreground bg-accent font-medium",
                 )}
               >
                 {item.label}
               </Link>
             ))}
           </nav>
-          <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           {!data?.user ? (
             <div className="flex items-center gap-2">
               <Button
-                variant="secondary"
+                variant="outline"
+                size="sm"
                 onClick={() => signIn("google", { callbackUrl: "/" })}
               >
                 Sign in with Google
               </Button>
               <Button
+                size="sm"
                 onClick={() =>
                   signIn("microsoft-entra-id", { callbackUrl: "/" })
                 }

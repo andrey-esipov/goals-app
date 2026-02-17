@@ -9,8 +9,8 @@ import { Providers } from "@/app/providers";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Goals App",
-  description: "Monarch-inspired goals + habits tracker",
+  title: "Goals",
+  description: "Track your goals, build momentum, see progress.",
 };
 
 export default function RootLayout({
@@ -28,7 +28,9 @@ export default function RootLayout({
           <div className="relative flex min-h-dvh flex-col">
             <SiteHeader />
             <main className="flex-1">
-              <div className="container py-6">{children}</div>
+              <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+                {children}
+              </div>
             </main>
           </div>
           <Toaster />
