@@ -14,7 +14,7 @@ export default function LoginPage() {
     e.preventDefault();
     if (!email.trim()) return;
     setLoading(true);
-    await signIn("resend", { email, redirect: false });
+    await signIn("resend", { email, redirect: false, callbackUrl: "/" });
     setLoading(false);
     setSent(true);
   }
