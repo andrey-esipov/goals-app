@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect } from "react";
 
 function getScoreColor(score: number) {
   if (score >= 70)
@@ -33,6 +34,14 @@ export function LifeScoreRing({
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
+
+  const count = useMotionValue(0);
+  const springCount = useSpring(count, { stiffness: 100, damping: 30 });
+  const display = useTransform(springCount, (v) => Math.round(v));
+
+  useEffect(() => {
+    count.set(score);
+  }, [count, score]);
 
   return (
     <div className="relative flex flex-col items-center gap-4">
@@ -104,7 +113,7 @@ export function LifeScoreRing({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            {score}
+            <motion.span>{display}</motion.span>
           </motion.span>
           <motion.span
             className="mt-0.5 text-xs font-medium tracking-[0.2em] text-zinc-500 uppercase"
