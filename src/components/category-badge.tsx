@@ -36,9 +36,9 @@ export function CategoryBadge({
     <span
       className={`inline-flex items-center rounded-full font-medium ${sizeClasses}`}
       style={{
-        backgroundColor: `${color}15`,
+        backgroundColor: `${color}12`,
         color: color,
-        border: `1px solid ${color}30`,
+        border: `1px solid ${color}20`,
       }}
     >
       <Icon className={size === "md" ? "h-3.5 w-3.5" : "h-3 w-3"} />

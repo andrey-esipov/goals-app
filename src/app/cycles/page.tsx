@@ -25,7 +25,7 @@ export default async function CyclesPage() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">Cycles</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-white">Cycles</h1>
         <p className="mt-1 text-sm text-zinc-500">
           Create focus windows and track goals inside each cycle.
         </p>
@@ -46,7 +46,7 @@ export default async function CyclesPage() {
             </div>
 
             {activeCycles.length === 0 ? (
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 text-center">
+              <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-8 text-center">
                 <Target className="mx-auto mb-3 h-8 w-8 text-zinc-600" />
                 <p className="text-sm text-zinc-500">
                   No active cycles. Create one to start.
@@ -57,7 +57,7 @@ export default async function CyclesPage() {
                 {activeCycles.map((cycle) => (
                   <div
                     key={cycle.id}
-                    className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all hover:border-white/[0.1] hover:bg-white/[0.04]"
+                    className="group relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5 transition-all hover:border-[var(--border-emphasis)] hover:bg-[var(--surface-2)] hover:shadow-[0_4px_12px_-4px_rgb(0_0_0/0.5)]"
                   >
                     <div className="absolute top-0 right-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
@@ -75,7 +75,7 @@ export default async function CyclesPage() {
                           {formatShortDate(cycle.endDate)}
                         </div>
                         <div className="mt-2 flex items-center gap-2 text-xs text-zinc-500">
-                          <span className="rounded-md bg-white/[0.04] px-2 py-0.5 font-medium text-zinc-400">
+                          <span className="rounded-md bg-[var(--surface-3)] px-2 py-0.5 font-medium text-zinc-400">
                             {cycle._count.goals} goals
                           </span>
                           <span className="inline-flex items-center gap-1 text-emerald-500">
@@ -88,13 +88,13 @@ export default async function CyclesPage() {
                       <div className="flex shrink-0 items-center gap-1.5">
                         <Link
                           href={`/cycles/${cycle.id}`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-white/[0.06] hover:text-white"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-[var(--surface-2)] hover:text-white"
                         >
                           <ArrowRight className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/cycles/${cycle.id}/edit`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-white/[0.06] hover:text-white"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-[var(--surface-2)] hover:text-white"
                         >
                           <Pencil className="h-3.5 w-3.5" />
                         </Link>
@@ -134,7 +134,7 @@ export default async function CyclesPage() {
                 {archivedCycles.map((cycle) => (
                   <div
                     key={cycle.id}
-                    className="flex items-center justify-between rounded-xl border border-white/[0.04] bg-white/[0.01] px-4 py-3"
+                    className="flex items-center justify-between rounded-xl border border-[var(--border-subtle)]/60 bg-[var(--surface-1)]/60 px-4 py-3"
                   >
                     <div className="min-w-0">
                       <Link
@@ -154,7 +154,7 @@ export default async function CyclesPage() {
                       <input type="hidden" name="archive" value="false" />
                       <button
                         type="submit"
-                        className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-zinc-300"
+                        className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs text-zinc-500 transition-colors hover:bg-[var(--surface-3)] hover:text-zinc-300"
                       >
                         <RotateCcw className="h-3 w-3" />
                         Restore
@@ -168,7 +168,7 @@ export default async function CyclesPage() {
         </div>
 
         {/* Create form */}
-        <div className="h-fit rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+        <div className="h-fit rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6">
           <div className="mb-5 flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
               <Plus className="h-4 w-4 text-emerald-400" />
@@ -215,10 +215,7 @@ export default async function CyclesPage() {
                 />
               </div>
             </div>
-            <Button
-              type="submit"
-              className="w-full bg-emerald-500 text-white hover:bg-emerald-400"
-            >
+            <Button type="submit" variant="emerald" className="w-full">
               Create cycle
             </Button>
           </form>

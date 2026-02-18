@@ -62,12 +62,12 @@ export function LandingHero() {
       <section className="pt-12 text-center sm:pt-20">
         <div className="relative mx-auto mb-8 inline-block">
           <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-3xl" />
-          <div className="relative flex h-20 w-20 items-center justify-center rounded-3xl border border-white/[0.08] bg-white/[0.03]">
+          <div className="relative flex h-20 w-20 items-center justify-center rounded-3xl border border-[var(--border-default)] bg-[var(--surface-2)]">
             <Target className="h-10 w-10 text-emerald-400" />
           </div>
         </div>
 
-        <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        <h1 className="mx-auto max-w-3xl text-5xl font-bold tracking-tight text-white sm:text-6xl">
           Track goals with{" "}
           <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
             obsessive clarity
@@ -106,16 +106,16 @@ export function LandingHero() {
             return (
               <div
                 key={feature.title}
-                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all hover:border-white/[0.1] hover:bg-white/[0.04]"
+                className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5 transition-all hover:border-[var(--border-emphasis)] hover:bg-[var(--surface-2)] hover:shadow-[0_4px_12px_-4px_rgb(0_0_0/0.5)]"
               >
                 <div
-                  className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg"
+                  className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl"
                   style={{
                     backgroundColor: `${feature.color}10`,
                     color: feature.color,
                   }}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-5 w-5" />
                 </div>
                 <h3 className="mb-1 text-sm font-semibold text-white">
                   {feature.title}
@@ -131,7 +131,7 @@ export function LandingHero() {
 
       {/* CTA */}
       <section className="pb-10 text-center">
-        <div className="rounded-3xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent p-10">
+        <div className="rounded-3xl border border-white/[0.06] bg-gradient-to-b from-[var(--surface-1)] to-transparent p-10">
           <h2 className="text-xl font-bold text-white">
             Ready to build momentum?
           </h2>

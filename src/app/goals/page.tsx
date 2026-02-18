@@ -9,16 +9,16 @@ export default async function GoalsPage() {
   const goals = await getActiveGoalsForUser(userId);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">Goals</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-white">Goals</h1>
         <p className="mt-1 text-sm text-zinc-500">
           Active goals across all cycles.
         </p>
       </div>
 
       {goals.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-12 text-center">
+        <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-12 text-center">
           <Target className="mx-auto mb-3 h-10 w-10 text-zinc-600" />
           <p className="text-sm text-zinc-500">
             No active goals. Create one inside a cycle.
@@ -54,7 +54,7 @@ export default async function GoalsPage() {
                 href={`/cycles/${goal.cycleId}`}
                 className="group block"
               >
-                <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all hover:border-white/[0.1] hover:bg-white/[0.04]">
+                <div className="relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5 transition-all hover:border-[var(--border-emphasis)] hover:bg-[var(--surface-2)] hover:shadow-[0_4px_12px_-4px_rgb(0_0_0/0.5)]">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2.5">
@@ -112,7 +112,7 @@ export default async function GoalsPage() {
                   </div>
 
                   {/* Progress bar */}
-                  <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/[0.04]">
+                  <div className="mt-4 h-1 overflow-hidden rounded-full bg-[var(--surface-3)]">
                     <div
                       className="h-full rounded-full transition-all duration-700"
                       style={{

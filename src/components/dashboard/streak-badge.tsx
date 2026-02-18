@@ -6,7 +6,7 @@ import { Flame } from "lucide-react";
 export function StreakBadge({ streak }: { streak: number }) {
   return (
     <motion.div
-      className="flex items-center gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
+      className="flex items-center gap-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] px-4 py-3"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.6, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}

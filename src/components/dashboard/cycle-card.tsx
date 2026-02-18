@@ -48,7 +48,7 @@ export function CycleCard({
       }}
     >
       <Link href={`/cycles/${cycle.id}`} className="group block">
-        <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all duration-300 hover:border-white/[0.1] hover:bg-white/[0.04]">
+        <div className="relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5 transition-all duration-300 hover:border-[var(--border-emphasis)] hover:bg-[var(--surface-2)] hover:shadow-[0_4px_12px_-4px_rgb(0_0_0/0.5)]">
           {/* Subtle top accent */}
           <div
             className="absolute top-0 right-0 left-0 h-[1px]"
@@ -68,7 +68,7 @@ export function CycleCard({
                 {format(cycle.endDate, "MMM d")}
               </div>
             </div>
-            <div className="flex items-center gap-1 rounded-lg bg-white/[0.04] px-2 py-1 text-xs font-medium text-zinc-400">
+            <div className="flex items-center gap-1 rounded-lg bg-[var(--surface-3)] px-2 py-1 text-xs font-medium text-zinc-400">
               {cycle.goalCount} goals
             </div>
           </div>
@@ -83,7 +83,7 @@ export function CycleCard({
                 {weeksLeft}w of {totalWeeks}w left
               </span>
             </div>
-            <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.04]">
+            <div className="h-2 overflow-hidden rounded-full bg-[var(--surface-3)]">
               <motion.div
                 className="h-full rounded-full"
                 style={{ backgroundColor: bar }}

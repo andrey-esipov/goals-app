@@ -45,7 +45,7 @@ export function MobileNav({
 
           {/* Panel */}
           <motion.div
-            className="fixed inset-y-0 right-0 z-50 w-72 border-l border-white/[0.06] bg-[#0c0c0d] p-6"
+            className="fixed inset-y-0 right-0 z-50 w-72 border-l border-[var(--border-subtle)] bg-[var(--surface-1)] p-6"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -55,7 +55,7 @@ export function MobileNav({
               <span className="text-sm font-semibold text-zinc-400">Menu</span>
               <button
                 onClick={onClose}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-white/[0.06] hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-[var(--surface-2)] hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -77,8 +77,8 @@ export function MobileNav({
                       className={cn(
                         "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all",
                         pathname === item.href
-                          ? "bg-white/[0.06] font-medium text-white"
-                          : "text-zinc-400 hover:bg-white/[0.03] hover:text-white",
+                          ? "bg-[var(--surface-2)] font-medium text-white"
+                          : "text-zinc-400 hover:bg-[var(--surface-1)] hover:text-white",
                       )}
                     >
                       <Icon className="h-4 w-4" />

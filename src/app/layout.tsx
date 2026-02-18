@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
 import { Providers } from "@/app/providers";
 
-const dmSans = DM_Sans({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={cn(
           "bg-background min-h-dvh font-sans antialiased",
-          dmSans.variable,
+          plusJakarta.variable,
           jetbrainsMono.variable,
         )}
       >
@@ -39,7 +39,7 @@ export default function RootLayout({
           <div className="relative flex min-h-dvh flex-col">
             <SiteHeader />
             <main className="flex-1">
-              <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+              <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-12">
                 {children}
               </div>
             </main>

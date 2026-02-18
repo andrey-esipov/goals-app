@@ -43,7 +43,7 @@ export function FocusGoals({ goals }: { goals: FocusGoal[] }) {
 
   return (
     <motion.div
-      className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+      className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4, duration: 0.5 }}
@@ -69,7 +69,7 @@ export function FocusGoals({ goals }: { goals: FocusGoal[] }) {
             transition={{ delay: i * 0.06 + 0.6 }}
           >
             <Link href={`/cycles/${goal.cycleId}`} className="group block">
-              <div className="-mx-2 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.03]">
+              <div className="-mx-2 rounded-xl px-3 py-3 transition-colors hover:bg-[var(--surface-1)]">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-zinc-200 group-hover:text-white">
@@ -87,7 +87,7 @@ export function FocusGoals({ goals }: { goals: FocusGoal[] }) {
 
                 {/* Mini progress bar */}
                 <div className="mt-2 flex items-center gap-3">
-                  <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/[0.04]">
+                  <div className="h-1 flex-1 overflow-hidden rounded-full bg-[var(--surface-3)]">
                     <div
                       className="h-full rounded-full bg-red-400/60"
                       style={{ width: `${goal.progress}%` }}

@@ -36,8 +36,8 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-[#0a0a0b]/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-40 w-full border-b border-[var(--border-subtle)] bg-[var(--surface-0)]/85 backdrop-blur-2xl backdrop-saturate-150">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
           <div className="flex items-center gap-8">
             <Link
               href="/"
@@ -54,8 +54,8 @@ export function SiteHeader() {
                   className={cn(
                     "rounded-lg px-3 py-1.5 text-[13px] font-medium tracking-wide transition-all duration-200",
                     pathname === item.href
-                      ? "bg-white/[0.08] text-white"
-                      : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200",
+                      ? "bg-[var(--surface-2)] text-white"
+                      : "text-zinc-400 hover:bg-[var(--surface-1)] hover:text-zinc-200",
                   )}
                 >
                   {item.label}
@@ -68,11 +68,7 @@ export function SiteHeader() {
             <ThemeToggle />
 
             {!data?.user ? (
-              <Button
-                asChild
-                size="sm"
-                className="bg-emerald-500 text-white hover:bg-emerald-400"
-              >
+              <Button asChild size="sm" variant="emerald">
                 <Link href="/login">Sign in</Link>
               </Button>
             ) : (
@@ -115,7 +111,7 @@ export function SiteHeader() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(true)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-white/[0.06] hover:text-white md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-[var(--surface-2)] hover:text-white md:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>

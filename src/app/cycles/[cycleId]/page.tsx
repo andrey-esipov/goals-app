@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 const selectClass =
-  "h-9 w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 text-sm text-white focus:border-emerald-500/40 focus:outline-none";
+  "h-9 w-full rounded-xl border border-[var(--border-default)] bg-[var(--surface-2)] px-3 text-sm text-white focus:border-emerald-400 focus:outline-none appearance-none";
 
 export default async function CycleDetailPage({
   params,
@@ -55,7 +55,7 @@ export default async function CycleDetailPage({
             Cycles
           </Link>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-white">
               {cycle.name}
             </h1>
             <span
@@ -80,7 +80,7 @@ export default async function CycleDetailPage({
         <div className="flex items-center gap-1.5">
           <Link
             href={`/cycles/${cycle.id}/edit`}
-            className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs text-zinc-400 transition-colors hover:bg-white/[0.06] hover:text-white"
+            className="flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs text-zinc-400 transition-colors hover:bg-[var(--surface-2)] hover:text-white"
           >
             <Pencil className="h-3 w-3" />
             Edit
@@ -96,7 +96,7 @@ export default async function CycleDetailPage({
               type="submit"
               className={`flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs transition-colors ${
                 cycle.archivedAt
-                  ? "text-zinc-400 hover:bg-white/[0.06] hover:text-white"
+                  ? "text-zinc-400 hover:bg-[var(--surface-2)] hover:text-white"
                   : "text-zinc-500 hover:bg-red-500/10 hover:text-red-400"
               }`}
             >
@@ -112,7 +112,7 @@ export default async function CycleDetailPage({
       </div>
 
       {/* Add goal form */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+      <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6">
         <div className="mb-5 flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
             <Plus className="h-4 w-4 text-emerald-400" />
@@ -130,7 +130,7 @@ export default async function CycleDetailPage({
               name="title"
               placeholder="Ship v1"
               required
-              className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
+              className="border-[var(--border-default)] bg-[var(--surface-2)] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
             />
           </div>
           <div className="space-y-2">
@@ -138,7 +138,7 @@ export default async function CycleDetailPage({
             <Input
               name="unit"
               placeholder="hrs, leads, lbs"
-              className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
+              className="border-[var(--border-default)] bg-[var(--surface-2)] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
             />
           </div>
           <div className="space-y-2 sm:col-span-2">
@@ -146,7 +146,7 @@ export default async function CycleDetailPage({
             <Textarea
               name="description"
               placeholder="Why does this matter?"
-              className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
+              className="border-[var(--border-default)] bg-[var(--surface-2)] text-white placeholder:text-zinc-600 focus:border-emerald-500/40"
             />
           </div>
           <div className="space-y-2">
@@ -156,7 +156,7 @@ export default async function CycleDetailPage({
               type="number"
               step="any"
               defaultValue={0}
-              className="border-white/[0.08] bg-white/[0.03] text-white focus:border-emerald-500/40"
+              className="border-[var(--border-default)] bg-[var(--surface-2)] text-white focus:border-emerald-500/40"
             />
           </div>
           <div className="space-y-2">
@@ -166,7 +166,7 @@ export default async function CycleDetailPage({
               type="number"
               step="any"
               required
-              className="border-white/[0.08] bg-white/[0.03] text-white focus:border-emerald-500/40"
+              className="border-[var(--border-default)] bg-[var(--surface-2)] text-white focus:border-emerald-500/40"
             />
           </div>
           <div className="space-y-2">
@@ -208,7 +208,7 @@ export default async function CycleDetailPage({
         </div>
 
         {activeGoals.length === 0 ? (
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 text-center">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-8 text-center">
             <Target className="mx-auto mb-3 h-8 w-8 text-zinc-600" />
             <p className="text-sm text-zinc-500">
               No goals yet. Add the first outcome for this cycle.
@@ -241,7 +241,7 @@ export default async function CycleDetailPage({
               return (
                 <div
                   key={goal.id}
-                  className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+                  className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
@@ -285,7 +285,7 @@ export default async function CycleDetailPage({
                   </div>
 
                   {/* Progress bar */}
-                  <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/[0.04]">
+                  <div className="mt-3 h-1 overflow-hidden rounded-full bg-[var(--surface-3)]">
                     <div
                       className="h-full rounded-full"
                       style={{
@@ -309,7 +309,7 @@ export default async function CycleDetailPage({
                             <ChevronDown className="h-3 w-3 transition-transform group-open:rotate-180" />
                           </span>
                         </summary>
-                        <div className="absolute right-0 z-10 mt-2 w-80 rounded-xl border border-white/[0.08] bg-[#0c0c0d] p-4 shadow-xl">
+                        <div className="absolute right-0 z-10 mt-2 w-80 rounded-xl border border-[var(--border-default)] bg-[var(--surface-1)] p-4 shadow-xl">
                           <form
                             className="space-y-3"
                             action={updateGoal.bind(null, goal.id)}
@@ -318,18 +318,18 @@ export default async function CycleDetailPage({
                               name="title"
                               defaultValue={goal.title}
                               required
-                              className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                              className="border-[var(--border-default)] bg-[var(--surface-2)] text-sm text-white focus:border-emerald-500/40"
                             />
                             <Input
                               name="unit"
                               defaultValue={goal.unit ?? ""}
                               placeholder="Unit"
-                              className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                              className="border-[var(--border-default)] bg-[var(--surface-2)] text-sm text-white focus:border-emerald-500/40"
                             />
                             <Textarea
                               name="description"
                               defaultValue={goal.description ?? ""}
-                              className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                              className="border-[var(--border-default)] bg-[var(--surface-2)] text-sm text-white focus:border-emerald-500/40"
                             />
                             <div className="grid grid-cols-2 gap-2">
                               <Input
@@ -337,7 +337,7 @@ export default async function CycleDetailPage({
                                 type="number"
                                 step="any"
                                 defaultValue={goal.startValue}
-                                className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                                className="border-[var(--border-default)] bg-[var(--surface-2)] text-sm text-white focus:border-emerald-500/40"
                               />
                               <Input
                                 name="targetValue"
@@ -345,7 +345,7 @@ export default async function CycleDetailPage({
                                 step="any"
                                 defaultValue={goal.targetValue}
                                 required
-                                className="border-white/[0.08] bg-white/[0.03] text-sm text-white focus:border-emerald-500/40"
+                                className="border-[var(--border-default)] bg-[var(--surface-2)] text-sm text-white focus:border-emerald-500/40"
                               />
                             </div>
                             <select
@@ -406,7 +406,7 @@ export default async function CycleDetailPage({
             {archivedGoals.map((goal) => (
               <div
                 key={goal.id}
-                className="flex items-center justify-between rounded-xl border border-white/[0.04] bg-white/[0.01] px-4 py-3"
+                className="flex items-center justify-between rounded-xl border border-[var(--border-subtle)]/60 bg-[var(--surface-1)]/60 px-4 py-3"
               >
                 <div>
                   <p className="text-sm font-medium text-zinc-400">

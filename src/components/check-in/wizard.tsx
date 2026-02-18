@@ -140,7 +140,7 @@ export function CheckInWizard(props: WizardProps) {
                 ? "w-8 bg-emerald-400"
                 : i < step
                   ? "w-1.5 bg-emerald-400/40"
-                  : "w-1.5 bg-white/[0.08]"
+                  : "w-1.5 bg-[var(--surface-2)]"
             }`}
           />
         ))}
@@ -155,7 +155,7 @@ export function CheckInWizard(props: WizardProps) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -30 }}
             transition={{ duration: 0.25 }}
-            className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+            className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6"
           >
             {/* Goal header */}
             <div className="mb-6 flex items-start gap-3">
@@ -271,7 +271,7 @@ export function CheckInWizard(props: WizardProps) {
                     [currentGoal.id]: parseFloat(e.target.value) || 0,
                   }))
                 }
-                className="h-12 w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 font-mono text-lg text-white placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
+                className="h-12 w-full rounded-xl border border-[var(--border-default)] bg-[var(--surface-2)] px-4 font-mono text-lg text-white placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
               />
             </div>
 
@@ -290,7 +290,7 @@ export function CheckInWizard(props: WizardProps) {
                 }
                 placeholder="Context, blockers, wins..."
                 rows={2}
-                className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
+                className="w-full rounded-xl border border-[var(--border-default)] bg-[var(--surface-2)] px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
               />
             </div>
           </motion.div>
@@ -302,7 +302,7 @@ export function CheckInWizard(props: WizardProps) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -30 }}
             transition={{ duration: 0.25 }}
-            className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+            className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6"
           >
             <div className="mb-4 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10">
@@ -323,7 +323,7 @@ export function CheckInWizard(props: WizardProps) {
               onChange={(e) => setWeekNotes(e.target.value)}
               placeholder="Wins, blockers, intentions for next week..."
               rows={5}
-              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
+              className="w-full rounded-xl border border-[var(--border-default)] bg-[var(--surface-2)] px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
             />
           </motion.div>
         )}

@@ -15,14 +15,11 @@ export function AiInsight({
 
   return (
     <motion.div
-      className="relative overflow-hidden rounded-2xl border border-purple-500/10 bg-gradient-to-br from-purple-500/[0.04] to-transparent"
+      className="relative overflow-hidden rounded-2xl border border-l-4 border-[var(--border-subtle)] border-l-purple-500/50 bg-[var(--surface-1)]"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.5 }}
     >
-      {/* Top accent */}
-      <div className="absolute top-0 right-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
-
       <button
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center justify-between p-5"

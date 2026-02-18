@@ -31,7 +31,7 @@ export default function LoginPage() {
         >
           <div className="relative mb-4">
             <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-2xl" />
-            <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
+            <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border-default)] bg-[var(--surface-2)]">
               <Target className="h-7 w-7 text-emerald-400" />
             </div>
           </div>
@@ -46,7 +46,7 @@ export default function LoginPage() {
         {sent ? (
           /* Check email state */
           <motion.div
-            className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 text-center"
+            className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-8 text-center"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
@@ -72,7 +72,7 @@ export default function LoginPage() {
         ) : (
           /* Email form */
           <motion.div
-            className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+            className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -93,14 +93,14 @@ export default function LoginPage() {
                   placeholder="you@example.com"
                   required
                   autoFocus
-                  className="h-11 w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 text-sm text-white transition-colors placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
+                  className="h-11 w-full rounded-xl border border-[var(--border-default)] bg-[var(--surface-2)] px-4 text-sm text-white transition-colors placeholder:text-zinc-600 focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 text-sm font-medium text-white transition-all hover:bg-emerald-400 disabled:opacity-50"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 text-sm font-medium text-white shadow-[0_1px_2px_0_rgb(0_0_0/0.3),inset_0_1px_0_0_rgb(255_255_255/0.1)] transition-all hover:bg-emerald-400 hover:shadow-[0_2px_8px_-2px_rgb(52_211_153/0.5)] active:scale-[0.98] disabled:opacity-50"
               >
                 {loading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

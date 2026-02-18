@@ -16,9 +16,9 @@ export default async function SettingsPage() {
   if (!user) redirect("/login");
 
   return (
-    <div className="mx-auto max-w-2xl space-y-10">
+    <div className="mx-auto max-w-2xl space-y-12">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">
+        <h1 className="text-3xl font-bold tracking-tight text-white">
           Settings
         </h1>
         <p className="mt-1 text-sm text-zinc-500">
@@ -27,7 +27,7 @@ export default async function SettingsPage() {
       </div>
 
       {/* Profile */}
-      <section className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+      <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6">
         <div className="mb-5 flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10">
             <User className="h-4 w-4 text-blue-400" />
@@ -53,7 +53,7 @@ export default async function SettingsPage() {
       </section>
 
       {/* Preferences */}
-      <section className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+      <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6">
         <div className="mb-5 flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10">
             <Settings className="h-4 w-4 text-amber-400" />
@@ -70,7 +70,7 @@ export default async function SettingsPage() {
                 Used for weekly check-in dates
               </p>
             </div>
-            <span className="rounded-lg bg-white/[0.04] px-3 py-1.5 text-sm text-zinc-400">
+            <span className="rounded-lg bg-[var(--surface-3)] px-3 py-1.5 text-sm text-zinc-400">
               Monday
             </span>
           </div>
@@ -83,7 +83,7 @@ export default async function SettingsPage() {
                 Pre-filled when creating new cycles
               </p>
             </div>
-            <span className="rounded-lg bg-white/[0.04] px-3 py-1.5 text-sm text-zinc-400">
+            <span className="rounded-lg bg-[var(--surface-3)] px-3 py-1.5 text-sm text-zinc-400">
               12 weeks
             </span>
           </div>
@@ -91,7 +91,7 @@ export default async function SettingsPage() {
       </section>
 
       {/* Notifications */}
-      <section className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+      <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6">
         <div className="mb-5 flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/10">
             <Bell className="h-4 w-4 text-purple-400" />
@@ -114,7 +114,7 @@ export default async function SettingsPage() {
       </section>
 
       {/* Data export */}
-      <section className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+      <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6">
         <div className="mb-5 flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/10">
             <Download className="h-4 w-4 text-cyan-400" />
@@ -126,7 +126,7 @@ export default async function SettingsPage() {
         </p>
         <button
           disabled
-          className="mt-4 rounded-xl bg-white/[0.04] px-4 py-2 text-sm text-zinc-400 transition-colors hover:bg-white/[0.06]"
+          className="mt-4 rounded-xl bg-[var(--surface-3)] px-4 py-2 text-sm text-zinc-400 transition-colors hover:bg-[var(--surface-2)]"
         >
           Export as CSV (coming soon)
         </button>

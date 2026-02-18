@@ -47,11 +47,11 @@ export default async function DashboardPage() {
   if (!hasData) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[var(--border-default)] bg-[var(--surface-2)]">
           <Plus className="h-8 w-8 text-zinc-500" />
         </div>
         <div>
-          <h1 className="mb-2 text-2xl font-bold tracking-tight text-white">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight text-white">
             Welcome to Goals
           </h1>
           <p className="max-w-sm text-sm text-zinc-500">
@@ -59,10 +59,7 @@ export default async function DashboardPage() {
             dashboard come to life.
           </p>
         </div>
-        <Button
-          asChild
-          className="bg-emerald-500 text-white hover:bg-emerald-400"
-        >
+        <Button asChild variant="emerald">
           <Link href="/cycles">
             <Plus className="mr-2 h-4 w-4" />
             Create a cycle
@@ -73,9 +70,9 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-14">
       {/* Hero section: Life Score + Stats */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent p-8">
+      <div className="relative overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-gradient-to-b from-[var(--surface-1)] to-transparent p-8">
         {/* Background decoration */}
         <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-emerald-500/[0.04] blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-blue-500/[0.03] blur-3xl" />
@@ -99,7 +96,7 @@ export default async function DashboardPage() {
       {/* Cycles Grid */}
       <div>
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-sm font-semibold tracking-[0.1em] text-zinc-400 uppercase">
+          <h2 className="text-xs font-semibold tracking-[0.15em] text-zinc-500 uppercase">
             Active cycles
           </h2>
           <Link

@@ -17,7 +17,7 @@ export function RecentActivity({ activities }: { activities: Activity[] }) {
   if (activities.length === 0) {
     return (
       <motion.div
-        className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+        className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.5 }}
@@ -35,7 +35,7 @@ export function RecentActivity({ activities }: { activities: Activity[] }) {
 
   return (
     <motion.div
-      className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+      className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.7, duration: 0.5 }}
